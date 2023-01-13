@@ -113,7 +113,7 @@ const Profile = () => {
               <input onChange = {handleUserDeatils} type='text' name='phone' placeholder='Phone' value={userData.phone}/>
             </div>
             <div className='profile-form-person-picture'>
-              <img src = "/images/default-profile.png" alt='profile'/>
+              <img src = {loggedInUser.profileImage?loggedInUser.profileImage:"/images/default-profile.png"} alt='profile'/>
             </div>
           </div>
             <div className='profile-form-address'>

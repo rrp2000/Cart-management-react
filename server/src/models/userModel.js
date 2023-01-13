@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
 
   email: { type: String, required: true, unique: true, trim: true },
 
-  profileImage: { type: String }, // s3 link
+  profileImage: { type: String, required:true }, // s3 link
 
   phone: { type: String, required: true, unique: true, trim: true },
 

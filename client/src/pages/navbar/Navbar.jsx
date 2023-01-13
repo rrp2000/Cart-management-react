@@ -1,11 +1,14 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { json, Link, useNavigate } from "react-router-dom";
 import { Store } from "../../context/Context";
 import "./navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate()
   let isLoggedIn = localStorage.getItem("isLoggedIn")
+  let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"))
+
+
 
 
   return isLoggedIn ? (
@@ -17,11 +20,7 @@ const Navbar = () => {
         <Link to = {"/products"}>Products</Link>
         <Link to = {"/"} onClick = {()=>localStorage.clear()}>Logout</Link>
 
-        <img
-          onClick={()=>navigate("/profile")}
-          className="navbar-profile"
-          src="/images/default-profile.png"
-          alt="profile"
+        <img onClick={()=>navigate("/profile")} className="navbar-profile" src={loggedInUser.profileImage} alt="profile"
         />
       </div>
     </nav>

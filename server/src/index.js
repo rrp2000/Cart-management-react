@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const router = require('./route/route');
 const multer = require("multer")
 const cors = require('cors')
+const fileUpload = require('express-fileupload');
+
 
 
 const app = express();
@@ -11,7 +13,7 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(multer().any())
+app.use(fileUpload())
 
 mongoose.connect("mongodb+srv://spacespider:admin@cluster0.0ps1ymn.mongodb.net/cart-management", {
     useNewUrlParser: true

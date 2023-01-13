@@ -1,10 +1,14 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import "./signup.css"
 const Signup = () => {
 
+    let navigate = useNavigate()
+
     let [isClicked, setIsClicked] = useState(false);
+
+    let [file,setFile] = useState("")
 
     let [signupDetails, setSignupDetails] = useState({
         fname:"",
@@ -31,21 +35,22 @@ const Signup = () => {
     }
     const handleShipping = (e) =>{
         let {name, value} = e.target
-        setShippingDetails({...signupDetails, [name]: value})
+        setShippingDetails({...shippingDetails, [name]: value})
     }
     const handleBilling = (e) =>{
         let {name, value} = e.target
-        setBillingDetails({...signupDetails, [name]: value})
+        setBillingDetails({...billingDetails, [name]: value})
     }
 
+    const handlePhoto = (event)=>{
+        setFile(event.target.files[0])
+        console.log(event.target.files[0])
+    }
+
+    
     const handleSubmit = (e) => {
-        axios.post("/register",{
-            fname: signupDetails.fname,
-            lname: signupDetails.lname,
-            email: signupDetails.email,
-            phone: signupDetails.phone,
-            password: signupDetails.password,
-            address:{
+        e.preventDefault()
+        let address = JSON.stringify({
                 shipping:{
                     street:shippingDetails.street,
                     city:shippingDetails.city,
@@ -56,11 +61,24 @@ const Signup = () => {
                     city:billingDetails.city,
                     pincode:billingDetails.pincode
                 }
-            }
-        }).then(res => {
+        })
+        let form = new FormData()
+        
+        form.append("fname",signupDetails.fname)
+        form.append("lname",signupDetails.lname)
+        form.append("email",signupDetails.email)
+        form.append("password",signupDetails.password)
+        form.append("phone",signupDetails.phone)
+        form.append("address",address)
+        form.append("profileImage",file)
+        
+        axios.post("/register",form).then(res => {
             console.log(res.data)
+            alert("Registered Successfully")
+            navigate("/login")
+
         }).catch(error => {
-            console.log(error)
+            alert(error.response.data.message)
         })
     }
   return (
@@ -68,11 +86,12 @@ const Signup = () => {
         <div className='signup-form'>
             <h1>Sign Up</h1>
             {!isClicked?<>
-            <input onChange={handleChange} type='text' name='fname' placeholder='First Name' value={signupDetails.fName}/>
-            <input onChange={handleChange} type='text' name='lname' placeholder='Last Name' value={signupDetails.lName}/>
+            <input onChange={handleChange} type='text' name='fname' placeholder='First Name' value={signupDetails.fname}/>
+            <input onChange={handleChange} type='text' name='lname' placeholder='Last Name' value={signupDetails.lname}/>
             <input onChange={handleChange} type='text' name='email' placeholder='Email' value={signupDetails.email}/>
             <input onChange={handleChange} type='text' name='phone' placeholder='Phone' value={signupDetails.phone}/>
             <input onChange={handleChange} type='text' name='password' placeholder='Password' value={signupDetails.password}/>
+            <input onChange={handlePhoto} type='file' name='profileImage'/>
             </>:<>
             <h5>Shipping</h5>
             <input onChange={handleShipping} type='text' name='street' placeholder='Street' value={shippingDetails.street}/>
@@ -85,7 +104,8 @@ const Signup = () => {
             <input onChange={handleBilling} type='text' name='pincode' placeholder='Pincode' value={billingDetails.pincode}/>
             </>}
             
-            <Link to="/login">Already Registed?</Link>
+            {!isClicked?<Link to="/login">Already Registed?</Link>:<Link to="/signup" onClick={()=>setIsClicked(!isClicked)} >Back</Link> }
+            
             {!isClicked?<button onClick={()=>setIsClicked(!isClicked)} >Next</button>:<button onClick={handleSubmit} >Register</button>}
         </div>
     </div>

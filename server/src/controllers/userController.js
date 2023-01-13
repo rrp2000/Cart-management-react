@@ -8,9 +8,8 @@ const Validator = require("../validation/validation");
 
 const createUser = async function (req, res) {
   try {
-    let data = JSON.parse(JSON.stringify(req.body));
+    let data = req.body;
     console.log(data)
-    let files = req.files;
     let { fname, lname, email, phone, password, address } = data;
 
     //Validation for body
@@ -65,17 +64,17 @@ const createUser = async function (req, res) {
     }
 
     //validations for address
-    data.address = JSON.parse(address);
+    address = JSON.parse(address);
+    data.address = address;
     if (!Validator.isValidAddress(data.address)) {
       return res.status(400).send({ status: false, message: "Address is required!" });
     }
-    console.log(data.address.shipping.city);
-    console.log(data.address.billing);
+    
     let addresses = ["shipping", "billing"];
     let locations = ["street", "city", "pincode"];
     for (let i = 0; i < addresses.length; i++) {
       if (!data.address[addresses[i]])
-        return res.status(400).send({ status: false, message: `${addresses[i]} is mandatory` });
+        return res.status(400).send({ status: false, message: `${data.addresses[i]} is mandatory` });
 
       for (let j = 0; j < locations.length; j++) {
         if (!data.address[addresses[i]][locations[j]])
@@ -93,6 +92,20 @@ const createUser = async function (req, res) {
 
     //validations for profile image
     //!image validation
+    if(!req.files) return res.status(400).send({ status: false, message: "No profile image found" });
+
+    const file = req.files.profileImage;
+
+    // const file = req.files.file;
+
+    file.mv(`C:/Users/spacespider/Documents/cart-management-project/client/public/images/uploads/${file.name}`,err=>{
+      if(err){
+          console.log(err)
+          return res.status(500).send(err)
+      }
+      data.profileImage = `/images/uploads/${file.name}`
+  })
+
 
     // if (!files || files.length == 0) {
     //   return res.status(400).send({ status: false, message: "No profile image found" });
@@ -110,6 +123,7 @@ const createUser = async function (req, res) {
     let encryptedPassword = await bcrypt.hash(data.password, saltRounds)
     data.password = encryptedPassword;
 
+    // console.log(data)
     //creating the data
     let savedData = await userModel.create(data);
     return res.status(201).send({ status: true, message: "Success", data: savedData });
