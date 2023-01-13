@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema({
 
     isFreeShipping: { type: Boolean, default: false },
 
-    // productImage: { type: String, required: true },  // s3 link
+    productImage: { type: String, required: true },  // s3 link
 
     style: { type: String },
 

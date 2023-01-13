@@ -1,11 +1,15 @@
-.product-container{
+.products-container{
     position: relative;
-    display: flex;
-    justify-content: space-evenly;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    gap: 4rem;
+    flex-wrap: wrap;
+
 }
 
-.product-container >button{
+.products-container >button{
     position: fixed;
     bottom: 2rem;
     padding: 1rem ;
@@ -15,6 +19,6 @@
     transition: 0.5s;
     cursor: pointer;
 }
-.product-container>button:hover{
+.products-container>button:hover{
     background-color: #0083c979
 }

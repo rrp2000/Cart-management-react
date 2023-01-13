@@ -98,12 +98,12 @@ const createUser = async function (req, res) {
 
     // const file = req.files.file;
 
-    file.mv(`C:/Users/spacespider/Documents/cart-management-project/client/public/images/uploads/${file.name}`,err=>{
+    file.mv(`C:/Users/spacespider/Documents/cart-management-project/client/public/images/users/${file.name}`,err=>{
       if(err){
           console.log(err)
           return res.status(500).send(err)
       }
-      data.profileImage = `/images/uploads/${file.name}`
+      data.profileImage = `/images/users/${file.name}`
   })
 
 
@@ -182,7 +182,7 @@ const loginUser = async function (req, res) {
     res.header("Authorization", "Bearer : " + token);
     return res.status(200).send({
       status: true,
-      message: "Success", data: { userId: hash._id, token: token }
+      message: "Success", data: { userId: hash._id, token: token, user:hash }
     });
 
   } catch (err) {

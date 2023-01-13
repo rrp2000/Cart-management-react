@@ -22,9 +22,11 @@ const Login = () => {
             localStorage.setItem("token",res.data.data.token)
             localStorage.setItem("isLoggedIn","true")
             localStorage.setItem("userId",res.data.data.userId)
+            localStorage.setItem("loggedInUser",JSON.stringify(res.data.data.user))
+            localStorage.setItem("profileImage",res.data.data.user.profileImage)
             navigate('/products')
         })
-        .catch(err=>console.log(err))
+        .catch(err=>alert(err.response.data.message))
     }
 
     function handleChange(event) {

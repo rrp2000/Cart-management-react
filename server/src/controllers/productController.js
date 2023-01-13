@@ -4,9 +4,9 @@ const Validator = require("../validation/validation");
 
 const createProduct = async function (req, res) {
   try {
-    let data = JSON.parse(JSON.stringify(req.body));
+    let data = req.body;
     console.log(data)
-    let files = req.files;
+
     // let { title, description, price, currencyId, currencyFormat, availableSizes } = data;
 
 
@@ -120,8 +120,9 @@ const createProduct = async function (req, res) {
     // //uploading the photo
     // let fileUrl = await uploadFile(files[0]);
     // data.productImage = fileUrl;
-    data.productImage = ""
 
+
+    
     // validation for style
     if (data.style) {
       if (!isNaN(parseInt(data.style))) {
@@ -132,9 +133,28 @@ const createProduct = async function (req, res) {
         return res.status(400).send({ status: false, message: "style can't be empty" });
       }
     }
-    console.log(data)
 
-    let savedData = await productModel.create(data);
+    let productData = {
+      ...data,
+    }
+
+    if(!req.files) return res.status(400).send({ status: false, message: "No product image found" });
+
+    const file = req.files.productImage;
+
+    // const file = req.files.file;
+    console.log(file)
+
+    file.mv(`C:/Users/spacespider/Documents/cart-management-project/client/public/images/products/${file.name}`,err=>{
+      if(err){
+          console.log(err)
+          return res.status(500).send(err)
+      }
+    })
+    productData.productImage = `/images/products/${file.name}`
+    console.log(productData)
+
+    let savedData = await productModel.create(productData);
     return res.status(201).send({ status: true, message: "Success", data: savedData });
 
   } catch (err) {
@@ -209,6 +229,8 @@ const getProduct = async function (req, res) {
 const getProductById = async function (req, res) {
   try {
     let productId = req.params.productId;
+    console.log(productId);
+    
 
     if (!Validator.isValidObjectId(productId)) {
       return res.status(400).send({ status: false, message: "enter valid productId" });

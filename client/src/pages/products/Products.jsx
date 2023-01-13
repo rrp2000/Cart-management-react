@@ -16,21 +16,15 @@ const Products = () => {
     .then(res => {
       setProducts(res.data.data)
     })
-    .catch(err => console.log(err))
-    axios.get(`/user/${localStorage.getItem("userId")}/profile`,{headers:{"Authorization": `Bearer ${localStorage.getItem("token")}` }})
-        .then(res => {
-            localStorage.setItem("loggedInUser",JSON.stringify(res.data.data))
-        }).catch(err => {
-        console.log(err)
-        })
+    .catch(err => alert(err.response.data.message))
   }, [])
 
   return (
 
-    <div className='product-container'>
-        {products.map(product=><ProductCard key={product._id} title={product.title}  price = {product.price} currencyFormat = {product.currencyFormat}/>)}
+    <div className='products-container'>
+        {products.map(product=><ProductCard  key={product._id} id = {product._id} title={product.title}  price = {product.price} currencyFormat = {product.currencyFormat} image = {product.productImage}/>)}
 
-        <button className='product-button' onClick={() => navigate("/createProduct")}>Add product</button>
+        <button className='products-button' onClick={() => navigate("/createProduct")}>Add product</button>
         
     </div>
   )
