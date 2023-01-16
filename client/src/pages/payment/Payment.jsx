@@ -27,7 +27,7 @@ const Payment = () => {
     <div className='payment-container'>
         <div className='payment-form'>
             <p>Here you can check the final price</p>
-            <h2>$2000</h2>
+            <h2>${localStorage.getItem("totalPrice")}</h2>
             <button onClick={generateOtp}>Proceed to pay</button>
         </div>
     </div>

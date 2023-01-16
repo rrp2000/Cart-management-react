@@ -24,7 +24,7 @@ const ProductDescription = () => {
             productId
         },{headers:{"Authorization": `Bearer ${localStorage.getItem("token")}` }})
         .then(res=>{
-            console.log(res.data.data.items)
+            alert("product added successfully. You can check the cart.")
         })
         .catch(err=>{
             console.log(err)

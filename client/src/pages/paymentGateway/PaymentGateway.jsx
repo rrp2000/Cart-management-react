@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "./paymentGateway.css"
@@ -17,7 +18,9 @@ const PaymentGateway = () => {
         let localOtp = localStorage.getItem("otp")
         if(otp===localOtp){
             alert("Payment Successful.... Comaback again!")
+            axios.delete(`/users/${localStorage.getItem("userId")}/cart`,{headers:{"Authorization":"Bearer "+localStorage.getItem("token")}})
             localStorage.removeItem("otp")
+            localStorage.removeItem("totalPrice")
             navigate("/products")
         }else{
             alert("Please Enter the correct OTP!!!")
