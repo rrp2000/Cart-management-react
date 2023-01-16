@@ -1,0 +1,7 @@
+.cart-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0083c907;
+    height: 100vh;
+}

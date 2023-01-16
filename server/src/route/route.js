@@ -41,6 +41,8 @@ router.get("/users/:userId/cart" , MW.authentication,MW.authorization,cart.getCa
 
 router.delete("/users/:userId/cart" ,MW.authentication,MW.authorization, cart.deleteCart)
 
+router.get("/getOtp",MW.authentication, cart.getOtp)
+
 
 //-----------------------------order Api----------------------------------------------//
 

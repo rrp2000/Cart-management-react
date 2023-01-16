@@ -11,7 +11,6 @@ const ProductDescription = () => {
     useEffect(() => {
         axios.get(`/products/${productId}`)
         .then(res => {
-            console.log(res)
             setProduct(res.data.data)
         })
         .catch(err => {
@@ -19,6 +18,18 @@ const ProductDescription = () => {
             Navigate("/products")
         })
     }, [productId])
+
+    function addToCart(e){
+        axios.post(`/users/${localStorage.getItem("userId")}/cart`,{
+            productId
+        },{headers:{"Authorization": `Bearer ${localStorage.getItem("token")}` }})
+        .then(res=>{
+            console.log(res.data.data.items)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
 
   return (
     <div className='product-container'>
@@ -33,7 +44,7 @@ const ProductDescription = () => {
                 <label>Price - <span>{product.currencyFormat}</span>{product.price}</label>
                 <label>AvailableSizes - {product.availableSizes}</label>
             </div>
-            <button onClick ={()=>console.log("clicked")}>Add To Cart</button>
+            <button onClick ={addToCart}>Add To Cart</button>
             
         </div>
     </div>

@@ -1,0 +1,37 @@
+.paymentGateway-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0083c907;
+    height: 100vh;
+}
+.paymentGateway-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.737);
+}
+
+.paymentGateway-form>input{
+    width: 20rem;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.paymentGateway-form >button{
+    padding: .75rem 3rem;
+    border-radius: 10px;
+    background-color: #0081C9;
+    color:white;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.paymentGateway-form>button:hover{
+    background-color: #0083c979
+}

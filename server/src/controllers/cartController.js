@@ -2,6 +2,8 @@ const userModel = require("../models/userModel");
 const productModel = require("../models/productModel");
 const cartModel = require("../models/cartModel");
 const Validator = require("../validation/validation");
+const otpGenerator = require('otp-generator')
+const SMS = require("node-sms-send")
 
 //-----------------------------------------Post Api(create cart with userId)-------------------------------//
 
@@ -9,6 +11,7 @@ const createCart = async function (req, res) {
     try {
         const body = req.body;
         const userId = req.params.userId
+        console.log(body,userId)
 
         //request body validations
         if (Validator.isValidBody(body)) {
@@ -212,7 +215,23 @@ const deleteCart = async function (req, res) {
 };
 
 
+const getOtp = async (req,res)=>{
+    try {
+
+        // let otp = Math.floor(Math.random()*10000)
+        let otp = otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
+
+        const sms = new SMS('username', 'password')
+
+        res.status(200).send({status:true, otp})
+        
+    } catch (error) {
+        res.status(500).send({status:false, message:error.message})
+    }
+}
 
 
 
-module.exports = { createCart, updateCart, getCart, deleteCart }   
+
+
+module.exports = { createCart, updateCart, getCart, deleteCart ,getOtp}   

@@ -1,0 +1,13 @@
+
+.cartProduct-container{
+    display: flex;
+    background-color: #0083c965;
+    gap: 4rem;
+    justify-content: space-around;
+
+}
+.cartProduct-container>img{
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+}

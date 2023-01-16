@@ -9,6 +9,8 @@ import CreateProduct from './pages/create_Product/CreateProduct';
 import Profile from './pages/profile/Profile';
 import ProductDescription from './pages/productDescription/ProductDescription';
 import Cart from './pages/cart/Cart';
+import Payment from './pages/payment/Payment';
+import PaymentGateway from './pages/paymentGateway/PaymentGateway';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/createProduct" element={<CreateProduct />} />
         <Route path="/productDescription/:productId" element={<ProductDescription />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/paymentGateway" element={<PaymentGateway />} />
       </Routes>
     </Router>
   );
